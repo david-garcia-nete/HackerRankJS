@@ -12,8 +12,12 @@ var min, closeMin, farMin;
 if((c[i*2]==1)||((i*2)>(c.length-1)))return Number.MAX_VALUE;
 closeMin = jumpingOnCloudsRec(c, i+1, s+1);
 farMin = jumpingOnCloudsRec(c, i+2, s+1);
-min = Math.min(closeMin, farMin, s);
-return min;
+min = Math.min(closeMin, farMin);
+if (closeMin==farMin==Number.MAX_VALUE){
+    return s;
+}else{
+    return min;
+}
 }
 
 
