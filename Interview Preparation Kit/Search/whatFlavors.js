@@ -3,7 +3,7 @@ function whatFlavors(cost, money) {
     var map = {};
     for(var i=0; i<cost.length;i++){
         if(cost[i] <= money) {
-            map[cost[i]] = [];
+            if(map[cost[i]] ==  null) map[cost[i]] = [];
             map[cost[i]].push(i); 
         }
     }
@@ -21,10 +21,12 @@ function whatFlavors(cost, money) {
                     first = first[0];
                     second = val[0];
                 }
- 
                 var firstNext = first + 1;
                 var secondNext = second + 1;
+                if (firstNext < secondNext)
                 console.log(firstNext + ' ' + secondNext);
+                if (secondNext < firstNext)
+                console.log(secondNext + ' ' + firstNext);
                 return;
             } 
     }
