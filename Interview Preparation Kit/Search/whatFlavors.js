@@ -3,7 +3,7 @@ function whatFlavors(cost, money) {
     var map = {};
     for(var i=0; i<cost.length;i++){
         if(cost[i] <= money) {
-            if(map[cost[i]] ==  null) map[cost[i]] = [];
+            if(!(cost[i] in map)) map[cost[i]] = [];
             map[cost[i]].push(i); 
         }
     }
@@ -14,6 +14,7 @@ function whatFlavors(cost, money) {
             if(diff in map){
                 var val = map[diff];
                 if(key == diff){
+                    if(!(1 in val)) continue;
                     first = val[0];
                     second = val[1];
                 } else{
