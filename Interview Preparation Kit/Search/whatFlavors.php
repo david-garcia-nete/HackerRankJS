@@ -17,7 +17,8 @@ function whatFlavors($cost, $money) {
             if(array_key_exists($diff, $map)){
                 $val = $map[$diff];
                 if($key == $diff){
-                    $first = $val[0];
+                    if(!array_key_exists(1, $val)) continue;
+                    $first = $val[0];                  
                     $second = $val[1];
                 } else{
                     $first = $map[$key];
