@@ -35,7 +35,7 @@ function whatFlavors(cost, money) {
 
 
 
-var cost = [2, 2, 4, 3];
+var cost = [4, 3, 2, 5, 7];
 
-whatFlavors(cost, 4);
+whatFlavors(cost, 8);
 
