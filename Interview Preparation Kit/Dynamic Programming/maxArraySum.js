@@ -1,5 +1,5 @@
 function maxSubsetSumRec(arr, jumpDest, runningSum, memo) {
-    var max = Number.MAX_INT * -1;
+    var max = Number.MIN_VALUE;
     if(jumpDest > arr.length-1) return runningSum;
     var j = 2;
     while(1){
@@ -23,7 +23,7 @@ function maxSubsetSumRec(arr, jumpDest, runningSum, memo) {
 
 // Complete the maxSubsetSum function below.
 function maxSubsetSum(arr) {
-    var max = Number.MAX_INT * -1;
+    var max = Number.MIN_VALUE;
     var memo = {};
     for(var i = 0; i<arr.length; i++){
         var j = 2;
