@@ -34,7 +34,5 @@ function isBalanced(s) {
 
 
 
-var s = '';
-
-isBalanced(s);
-
+var s = '{{}(';
+console.log (isBalanced(s));
