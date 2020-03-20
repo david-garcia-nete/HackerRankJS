@@ -11,13 +11,8 @@ function connectChildren($i, $cityObs, &$roadCount){
 }
 
 class City {
-    public $children;
-    public $visited;
-
-    function _construct(){
-        $this->children = [];
-        $this->visited = false;
-    }
+    public $children = []; 
+    public $visited = false; 
 }
 
 // Complete the roadsAndLibraries function below.
