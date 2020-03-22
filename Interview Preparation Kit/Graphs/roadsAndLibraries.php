@@ -2,19 +2,18 @@
 
 function connectChildren($i, &$cityObs, &$roadCount){
     $toVisit = [];
-    $toVisit[]= $cityObs[$i];
     $cityObs[$i]->visited = true;
-    $roadCount++;
     for($j = 0; $j < count($cityObs[$i]->children); $j++){
         $toVisit[]= $cityObs[$cityObs[$i]->children[$j]];
+        $cityObs[$cityObs[$i]->children[$j]]->visited = true;
     }
     while(count($toVisit) > 0){
         $city = array_pop($toVisit);
         $cityObs[$city->number]->visited = true;
+        $roadCount++;
         for($k = 0; $k < count($cityObs[$city->number]->children); $k++){
             if($cityObs[$cityObs[$city->number]->children[$k]]->visited == false){
                 $toVisit[]= $cityObs[$cityObs[$city->number]->children[$k]];
-                $roadCount++;
             }
         } 
     }   
