@@ -5,6 +5,7 @@ function connectChildren($i, &$cityObs, &$roadCount){
     $cityObs[$i]->visited = true;
     for($j = 0; $j < count($cityObs[$i]->children); $j++){
         $toVisit[]= $cityObs[$cityObs[$i]->children[$j]];
+        $roadCount++;
     }
     while(count($toVisit) > 0){
         $city = array_pop($toVisit);
@@ -15,7 +16,7 @@ function connectChildren($i, &$cityObs, &$roadCount){
                 $roadCount++;
             }
         } 
-    }    
+    }  
 }
 
 class City {
