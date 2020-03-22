@@ -8,16 +8,14 @@ function connectChildren($i, &$cityObs, &$roadCount){
     }
     while(count($toVisit) > 0){
         $city = array_pop($toVisit);
-        $cityObs[$city->$number]->visited = true;
-        for($k = 0; $k < count($cityObs[$city->$number]->children); $k++){
-            if($cityObs[$cityObs[$city->$number]->children[$k]]->visited == false){
-                $toVisit[]= $cityObs[$cityObs[$city->$number]->children[$k]];
+        $cityObs[$city->number]->visited = true;
+        for($k = 0; $k < count($cityObs[$city->number]->children); $k++){
+            if($cityObs[$cityObs[$city->number]->children[$k]]->visited == false){
+                $toVisit[]= $cityObs[$cityObs[$city->number]->children[$k]];
                 $roadCount++;
             }
-        }
-        
+        } 
     }    
-
 }
 
 class City {
@@ -31,7 +29,7 @@ function roadsAndLibraries($n, $c_lib, $c_road, $cities) {
     $cityObs = []; $roadCount = 0; $libCount = 0;
     for($i = 1; $i <= $n; $i++){
         $cityObs[$i] = new City;
-        $cityObs[$i]->$number = $i;
+        $cityObs[$i]->number = $i;
     }
     for($i = 0; $i < count($cities); $i++){
         $cityObs[$cities[$i][0]]->children[]= $cities[$i][1];
