@@ -24,18 +24,10 @@ function toUppercase(x){
 function abbreviation(a, b) {
     var aP = 0; var bP = 0;
     while(aP < a.length && bP < b.length){
-        if((a[aP] == b[bP] || toUppercase(a[aP]) == b[bP]) && (a[aP + 1] != toUppercase(a[aP]))){
+        if(a[aP] == b[bP] || toUppercase(a[aP]) == b[bP]){
             aP++; bP++;
         }else{
-             if(isUppercase(a[aP])){
-                console.log('a.length ' + a.length);
-                console.log('aP ' + aP);
-                console.log('a[aP] ' + a[aP]);
-                console.log('b.length ' + b.length);
-                console.log('bP ' + bP);
-                console.log('b[bP] ' + b[bP]);
-                return 'NO';
-            }
+             if(isUppercase(a[aP])) return 'NO';
             aP++;
         }
     }
