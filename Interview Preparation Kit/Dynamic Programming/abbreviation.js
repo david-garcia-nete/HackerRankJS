@@ -23,11 +23,13 @@ class Tree{
             root.leftChild = new Node (this.deleteIndex(i, root.str));
             root.rightChild = new Node (this.toUppercase(i, root.str));
             if(root.leftChild.str) this.createTree(root.leftChild, i);
+            delete root.leftChild;
             if(this.compare(root.str)){
                 this.found = true;
                 return;
             }
             if(root.rightChild.str) this.createTree(root.rightChild, i+1);
+            delete root.rightChild;
             if(this.compare(root.str)){
                 this.found = true;
                 return;
