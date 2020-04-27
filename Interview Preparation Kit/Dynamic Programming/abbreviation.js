@@ -1,47 +1,122 @@
-function isUppercase(x){
-    var upAlph='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    for(var i = 0; i < upAlph.length; i++){
-        if(x == upAlph[i]) return true;
+class Node {
+    constructor(str){
+        this.str = str;
+        this.leftChild;
+        this.rightChild;
     }
-    return false;
 }
 
-function toUppercase(x){
-    var p = 0; var lowAlph = 'abcdefghijklmnopqrstuvwxyz';
-    while(p < lowAlph.length){
-        if(x == lowAlph[p]){
-            break;
+class Tree{
+    constructor(a, b){
+        this.b = b; 
+        this.found = false;
+        this.root = new Node(a);
+        this.createTree(this.root, 0);
+    }
+    createTree(root, i){
+        if(this.compare(root.str)){
+            this.found = true;
+            return;
+        }
+        if(i>root.str.length-1)return;
+        if(this.isLowercase(root.str[i])){
+            root.leftChild = new Node (this.deleteIndex(i, root.str));
+            root.rightChild = new Node (this.toUppercase(i, root.str));
+            if(root.leftChild.str) this.createTree(root.leftChild, i);
+            if(this.compare(root.str)){
+                this.found = true;
+                return;
+            }
+            if(root.rightChild.str) this.createTree(root.rightChild, i+1);
+            if(this.compare(root.str)){
+                this.found = true;
+                return;
+            }
         }else{
-            p++;
+            this.createTree(root, i+1);
         }
     }
-    if(p == 26) return x;  
-    var upAlph='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return upAlph[p];
+    deleteIndex(i, str){
+        var copy = [];
+        for(var j = 0; j<str.length; j++){
+            if(j!=i)copy.push(str[j]);
+        }
+        return copy;
+    }
+    compare(str){
+        if(str.length!=this.b.length)return false;
+        for(var i = 0; i<str.length; i++){
+            if(str[i]!=this.b[i])return false;
+        }
+        return true;
+    }
+    toUppercase(i, str){
+        var copy = [];
+        for(var j = 0; j<str.length; j++){
+            if(j!=i){
+                copy.push(str[j]);
+            }else{
+                copy.push(this.toUppercaseIndex(str[j]));
+            }    
+        }
+        return copy;
+    }
+    isLowercase(x){
+        var alph = 'abcdefghijklmnopqrstuvwxyz';
+        for(var i = 0; i < alph.length; i++){
+            if (alph[i]==x) return true;
+        }
+        return false;
+    }
+    toUppercaseIndex(x){
+        var lowAlph = 'abcdefghijklmnopqrstuvwxyz';
+        var loc;
+        for(var i = 0; i < lowAlph.length; i++){
+            if (lowAlph[i]==x) loc = i;
+        }
+        var upAlph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return upAlph[loc];
+    }
 }
 
 // Complete the abbreviation function below.
 function abbreviation(a, b) {
-    var aP = 0; var bP = 0;
-    while(aP < a.length && bP < b.length){
-        if(a[aP] == b[bP] || toUppercase(a[aP]) == b[bP]){
-            aP++; bP++;
-        }else{
-             if(isUppercase(a[aP])) return 'NO';
-            aP++;
-        }
-    }
-    while(aP < a.length){
-        if(isUppercase(a[aP])) return 'NO';
-        aP++;
-    }
-    if(bP > b.length-1){
-        return 'YES';
-    }else{
-        return 'NO';
-    }
+    var tree = new Tree(a, b);
+    if(tree.found)return 'YES';
+    return 'NO';
 }
 
-a = 'BFZZVHdQYHQEMNEFFRFJTQmNWHFVXRXlGTFNBqWQmyOWYWSTDSTMJRYHjBNTEWADLgHVgGIRGKFQSeCXNFNaIFAXOiQORUDROaNoJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMvSTGEQCYAJSFvbqivjuqvuzafvwwifnrlcxgbjmigkms';
-b = 'BFZZVHQYHQEMNEFFRFJTQNWHFVXRXGTFNBWQOWYWSTDSTMJRYHBNTEWADLHVGIRGKFQSCXNFNIFAXOQORUDRONJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMSTGEQCYAJSF';
-console.log(abbreviation(a, b)); // Expected YES //Actual NO
+a = 'RDWPJPAMKGRIWAPBZSYWALDBLDOFLWIQPMPLEMCJXKAENTLVYMSJNRJAQQPWAGVcGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDDOFCYWBUCJGbvqlddfazmmohcewjg';
+b = 'RDPJPAMKGRIWAPBZSYWALDBLOFWIQPMPLEMCJXKAENTLVYMJNRJAQQPWAGVGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDOFCYWBUCJG';
+console.log(abbreviation(a, b));
+
+
+//a = 'MBQEVZPBjcbswirgrmkkfvfvcpiukuxlnxkkenqp';
+//b = 'MBQEVZP';
+//console.log(abbreviation(a, b));
+//a = 'DINVMKSOfsVQByBnCWNKPRFRKMhFRSkNQRBVNTIKNBXRSXdADOSeNDcLWFCERZOLQjEZCEPKXPCYKCVKALNxBADQBFDQUpdqunpelxauyyrwtjpkwoxlrrqbjtxlkvkcajhpqhqeitafcsjxwtttzyhzvh';
+//b = 'DINVMKSOVQBBCWNKPRFRKMFRSNQRBVNTIKNBXRSXADOSNDLWFCERZOLQEZCEPKXPCYKCVKALNBADQBFDQU';
+//console.log(abbreviation(a, b));
+//a = 'BFZZVHdQYHQEMNEFFRFJTQmNWHFVXRXlGTFNBqWQmyOWYWSTDSTMJRYHjBNTEWADLgHVgGIRGKFQSeCXNFNaIFAXOiQORUDROaNoJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMvSTGEQCYAJSFvbqivjuqvuzafvwwifnrlcxgbjmigkms';
+//b = 'BFZZVHQYHQEMNEFFRFJTQNWHFVXRXGTFNBWQOWYWSTDSTMJRYHBNTEWADLHVGIRGKFQSCXNFNIFAXOQORUDRONJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMSTGEQCYAJSF';
+//console.log(abbreviation(a, b));
+//a = 'AQIUQVIPJDKYNEBPXFGVHCMFGvURORPRSTYQYJZCYJDNFRPRYTMZIsNDOJAOAGAEFRCDKUJBhdkedalbwoxxnoyowoxpdlelovibyiwat';
+//b = 'AQIUQVIPJDKYNEBPXFGVHCMFGURORPRSTYQYJZCYJDNFRPRYTMZINDOJAOAGAEFRCDKUJB';
+//console.log(abbreviation(a, b));
+//a = 'HCPXJZTDXLWHYKHPPDFYFDJWTAETQLJCIIPVHMZHHOQTKONUHGYVKLXTFTBEMYAWXTCSwNJYALIGMIBDOWKIVStFATDOZCYSUCaATUWORPMTFPKTNHDSFWKRKBrXNBYICOZYDWLLElKKWTFAUSTZKFDCBQNYVcWKDHDMXJGFORwURHISYLBIZSOJXVRVBNPQLRJKIN';
+//b = 'HCPXJZTDXLWHYKHPPDFYFDJWTAETQLJCIIPVHMZHHOQTKONUHGYVKLXTFTBEMYAWXTCSNJYALIGMIBDOWKIVSFATDOZCYSUCATUWORPMTFPKTNHDSFWKRKBXNBYICOZYDWLLEKKWTFAUSTZKFDCBQNYVWKDHDMXJGFORURHISYLBIZSOJXVRVBNPQLRJKINIIOYB';
+//console.log(abbreviation(a, b));
+//a = 'IZLAKtDFAITDNWMVQPDShQQFGTRIXDLNBQPZRpuRJMLLPHBMOWrNagJDPPREZSYBHIWKDHLkjPSEUWIVQYUfPPJYKCbPEKCSKBRIAAJTMDPAOLNWSQESOTRQZOFTMTTGTDTrWLPENHXHLDWAFNDZMIFlogtcddtulusydquboxquwmgcji';
+//b = 'IZLAKDFAITDNWMVQPDSQQFGTRIXDLNBQPZRRJMLLPHBMOWNJDPPREZSYBHIWKDHLPSEUWIVQYUPPJYKCPEKCSKBRIAAJTMDPAOLNWSQESOTRQZOFTMTTGTDTWLPENHXHLDWAFNDZMIF';
+//console.log(abbreviation(a, b));
+//a = 'KRBPLVCTESRNPTCVNDMPTQYvFAWBGYPQHNXNAESRQMKFDZIEKVNZXSXKCFHQYCMMANPQFHWCEeNGOLWTUXZVMQNDZfRPLUFZcSTRLRYAZUKAZYXCVTNTNScSDFTBJSUKEQKZRDITZUCFVAPLCLTUWAXOnNHPYEOZDGWZPBJQBZEOFAeXTFJDWRHI';
+//b = 'KRBPVCTESRNPTCVNDMPTQYFWBGYPQHXNAESRQMFDZIEKVNZXSXKFHQYCMMANPQFHWCNGOLWTUXZVMQNDZRPLUFZSTRLRYAZUAZYXCVTNTNSSDTBJSUKEQKZRDITZUCFVAPCLTUWAXONHPYEOZDGWZPBJQBZEOAXTFJDWRHIPGQVCWODYNNV';
+//console.log(abbreviation(a, b));
+//a = 'WOAECAAVWMSQMIMYMAPEVARGIZCTIVNLAgydhmrxwcjltpjdewxhxrtynyyuyhqwbpkwuqtpwmyhemjxvwoazumyfstoumreirdkwbmepwbrgmyhjgtqeltzxnwhbunvuoejnhfqcikggaqjgsoqhzrmu';
+//b = 'WOAECAAVWMSQMIMYMAPEVARGIZCTIVNLA';
+//console.log(abbreviation(a, b));
+//a = 'RMPRWOBYTSjXGVJQPDQEHTWXMOGcHVWKATSWLBWPJBQTYKVHKMFKCYVVJXGLUEZTLSXChGBCAOAMiFEAPPAGWeMXXQAQTFCZGXKOGZLLUWTZDOYVWHIJZEIDOSHPwFWHYXCIZKTjKKVKQNDXMTCCBQMAGVCDPZOXHPSEQYthuqclzletakrqbzmaohadpog';
+//b = 'RMPRWOBYTSXGVJQPDQEHTWXMOGHVWKATSWLBWPJBQTYKVHKMFKCYVVJXGLUEZTLSXCGBCAOAMFEAPPAGWMXXQAQTFCZGXKOGZLLUWTZDOYVWHIJZEIDOSHPFWHYXCIZKTKKVKQNDXMTCCBQMAGVCDPZOXHPSEQY';
+//console.log(abbreviation(a, b));
+
+
